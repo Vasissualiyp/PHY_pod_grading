@@ -1,4 +1,5 @@
 # By Vasilii Pustovoit with help of ChatGPT in Q1 2023
+
 #Libraries import {{{
 import numpy as np
 import pandas as pd
@@ -6,11 +7,6 @@ from openpyxl import Workbook
 from openpyxl.styles import PatternFill
 from openpyxl.utils.dataframe import dataframe_to_rows
 #}}}
-
-#Alter formula inside of the code to suit your needs
-#Formula for marks: Student_mark = Pod_Mark + Attendance_Mark
-#Attendance_mark is max 2, 1 if student is late
-#Pod_Mark is the mark for the group of students, with max being 6
 
 # START OF EDITABLE PARTS-------------------------------------------------------------
 
