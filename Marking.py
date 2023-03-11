@@ -1,16 +1,17 @@
-# By Vasilii Pustovoit with help of ChatGPT in Q1 2023
+# By Vasilii Pustovoit with help of ChatGPT
 
-#Libraries import {{{
 import numpy as np
 import pandas as pd
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill
 from openpyxl.utils.dataframe import dataframe_to_rows
-#}}}
 
-# START OF EDITABLE PARTS-------------------------------------------------------------
 
-file_in = r"Pods.xlsx"  # Filename with pod distributions, marks
+
+
+# START OF EDITABLE PARTS------------------------------------------------------------------------
+
+file_in = r"Pods.xlsx"  # Filename with pod distributions
 
 file_out = r"Marks.xlsx"  # Output file name
 
@@ -23,11 +24,13 @@ removerows = 0  # How mnay rows to remove
 
 max_pod = 9  # The maximum pod number (leave it as 9)
 
-xlsx_colors = ["FFFFFF", "D3D3D3"]  # Colors for the excel output file. Will alternate row coloring between all of them
-# END OF EDITABLE PARTS--------------------------------------------------------------
+xlsx_colors = ["FFFFFF", "D3D3D3"]  # Colors for the excel output file
+# END OF EDITABLE PARTS--------------------------------------------------------------------------
 
 
-# Apply alternating coloring to the excel file of the dataframe {{{
+# Apply alternating coloring to the excel file of the dataframe
+
+
 def write_to_excel_with_alternating_colors(df, color_list, filename):
     # Create a new workbook
     wb = Workbook()
@@ -51,9 +54,9 @@ def write_to_excel_with_alternating_colors(df, color_list, filename):
 
     # Save the workbook
     wb.save(filename)
-#}}}
 
-# Reading excel file and altering it {{{
+
+# Reading excel file
 # Students list
 dated = pd.read_excel(file_in, sheet_name="Pods")
 df2 = dated.values.tolist()
@@ -64,11 +67,12 @@ dated2 = pd.read_excel(file_in, sheet_name="Marks")
 df1 = dated2.values.tolist()
 df1 = list(map(list, zip(*df1)))
 
+
 # Remove rows at the start
 df2 = [row[removerows:] for row in df2]
-#}}}
 
-# Extracting info from excel file {{{
+
+# Extracting info from excel file
 # student list
 students_last = df2[lastnamecolumn]
 students_first = df2[firstnamecolumn]
@@ -84,9 +88,9 @@ Excel_podno = df1[0]
 Excel_podmarks = df1[1]
 Excel_size = len(Excel_podmarks)
 print(Excel_podmarks)
-#}}}
 
-# Making itself {{{
+
+# GET THE MARKS FOR EACH POD
 # Initialize the array with zeros and max_pod+1 elements
 Pod_marks = [0] * (max_pod + 1)
 
@@ -98,12 +102,12 @@ for i in range(0, Excel_size):
 
 # print(Pod_marks)
 
+
 # Creating a column with marks
 marks = np.zeros(np.size(students_pod))
 df2.append(marks)
-#}}}
 
-#Writing marks into the output excel file {{{
+
 # Writing marks into the mark column
 for i in range(0, np.size(marks)):
     PodNo = int(students_pod[i])
@@ -113,6 +117,7 @@ for i in range(0, np.size(marks)):
         marks[i] = marks[i] + 1
     elif PodNo != 0:
         marks[i] = marks[i] + 2
+
 
 # Names for the columns in final excel file
 Names = list(dated.columns.values)
@@ -131,7 +136,7 @@ df = df.drop(
         "qclass_list.Group",
         "qclass_list.Email Address",
         "qclass_list.UTORid",
-        "original Pod # ",
+        "Original Pod #",
     ],
     axis=1,
 )
@@ -140,23 +145,29 @@ df.columns = NewNames
 
 #Write to excel, apply coloring
 write_to_excel_with_alternating_colors(df, xlsx_colors, file_out)
-#}}}
 
 
 
-"""
-#QUERCUS IMPORTING {{{
+
+
+
+
+
+#QUERCUS IMPORTING
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
 def import_grades_to_quercus(df, username, password):
     # Launch the webdriver and navigate to the Quercus login page
     driver = webdriver.Chrome()
     driver.get("https://q.utoronto.ca")
-    time.sleep(3)
-
+    #time.sleep(3)
+    
     # Enter the login information and submit the form
     username_field = driver.find_element('name',"j_username")
     username_field.send_keys(username)
@@ -165,21 +176,75 @@ def import_grades_to_quercus(df, username, password):
     password_field.send_keys(Keys.RETURN)
 
     # Wait for the page to load and navigate to the gradebook page
+    time.sleep(2)
+    iframe = driver.find_element_by_id('duo_iframe')
+    driver.switch_to.frame(iframe)
+    
+    # locate and click the "Send Me a Push" button
+    push_button = driver.find_element_by_xpath("//button[contains(text(),'Send Me a Push')]")
+    push_button.click()
+    time.sleep(4)
+    
+    #GRADEBOOK APPROACH
+    #Go to course webpage
+    driver.get("https://q.utoronto.ca/courses/296927/gradebook")
+    
+    time.sleep(2)
+    # Find the search bar element and enter text
+    search_bar = driver.find_element_by_id("assignments-filter")
+    search_bar.click()
+    search_bar.send_keys("PRA5 - Upload")
+    
+    # Press the enter key to submit the search
+    search_bar.send_keys(Keys.ENTER)
+    
+    time.sleep(2)    
+    element = driver.find_element_by_id("assignments-filter")
+    actions = ActionChains(driver)
+    actions.move_to_element(element).click().perform()
+    time.sleep(2)
+    # send the down arrow key to simulate opening the dropdown
+    driver.send_keys(Keys.ARROW_DOWN)
+    
+    """
+    #SPEEDGRADER APPROACH
+    #Go to course webpage
+    driver.get("https://q.utoronto.ca/courses/296927/modules")
+    
+    #Go to the practical speed grader page
+    link = driver.find_element_by_link_text('PRA5 - Upload')
+    link.click()
+    link = driver.find_element_by_css_selector("a.icon-speed-grader")
+    link.click()
+    
     time.sleep(5)
-    driver.get("https://quercus.utoronto.ca/courses/12345/grades")
-
-    # Iterate over the rows in the DataFrame and enter each grade into the appropriate field
-    for i, row in df.iterrows():
-        # Find the appropriate field using its name or id attribute
-        assignment_name = 'PRA4 - Upload'
-        grade = row['Marks']
-        field = driver.find_element_by_css_selector(f"input[name='{assignment_name}']")
-        field.clear()
-        field.send_keys(str(grade))
-        field.send_keys(Keys.RETURN)
-        time.sleep(1)
-
+    with open('pagesource.txt', 'w', encoding='utf-8') as f:
+        f.write(driver.page_source)
+    f.close()
+    
+    
+    
+    
+    # find the input box element
+    #input_box = wait.until(EC.presence_of_element_located((By.ID, "grading-box-extended")))
+    input_box = driver.find_element_by_class_name('criterion_points')
+    input_box.send_keys("8")
+    
+    # find the button element
+    button = driver.find_element_by_css_selector("i.icon-arrow-right.next")
+    action = ActionChains(driver)
+    action.move_to_element(button).click().perform()
+    
+    print(driver.page_source)
+    
+    """
+    time.sleep(10)
     # Close the webdriver
     driver.quit()
-#}}}
+
+
+"""
+login =
+pqssword =
+import_grades_to_quercus(df, login, password)
 """
