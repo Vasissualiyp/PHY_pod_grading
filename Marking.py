@@ -21,6 +21,7 @@ PRA_name = "PRA5 - Upload (1032967)"
 # FOR SECURITY ADVISED TO KEEP EMPTY
 login =''
 password = ''
+browser = 'Firefox' #Chrome or Firefox
 
 max_pod = 9  # The maximum pod number (leave it as 9)
 
@@ -180,7 +181,10 @@ def import_grades_to_quercus(df, username, password):
 
     # Log in with your account {{{
     # Launch the webdriver and navigate to the Quercus login page
-    driver = webdriver.Chrome()
+    if browser == 'Chrome':
+        driver = webdriver.Chrome()
+    if browser == 'Firefox':
+        driver = webdriver.Firefox()
     driver.get("https://q.utoronto.ca")
     
     # Enter the login information and submit the form
@@ -191,7 +195,7 @@ def import_grades_to_quercus(df, username, password):
     password_field.send_keys(Keys.RETURN)
     
     # Two Factor Authentification {{{
-    if 2FA=='Duo':
+    if TFA=='Duo':
         # Wait for the page to load and navigate to the gradebook page
         time.sleep(2)
         iframe = driver.find_element_by_id('duo_iframe')
