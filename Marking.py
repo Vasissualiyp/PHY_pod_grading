@@ -80,7 +80,8 @@ def grading(df_students, df_marks, Names, GradingScheme):
     students_name = df_students[namecolumn]
     podnocolumn = Names.index('Pod #, 0 if absent')
     students_pod = df_students[podnocolumn]
-    latenesscolumn = Names.index('Lateness') lateness = df_students[latenesscolumn]
+    latenesscolumn = Names.index('Lateness') 
+    lateness = df_students[latenesscolumn]
     # print(students_pod)
 
     # Marks
