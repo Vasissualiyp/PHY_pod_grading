@@ -7,6 +7,7 @@ from openpyxl import Workbook
 from openpyxl.styles import PatternFill
 from openpyxl.utils.dataframe import dataframe_to_rows
 import csv
+from getpass4 import getpass
 #}}}
 # START OF EDITABLE PARTS------------------------------------------------------------------------
 
@@ -35,9 +36,113 @@ latenesscolumn = 8  # ID of column with the lateness of students
 
 removerows = 0  # How manay rows to remove
 
+GradingScheme = 'Full' # Set what grading scheme you want to use 
+# Change it in the function "set_grade" 
+# Possible schemes: PHY1610 Practical, Full, Custom
+
 # END OF EDITABLE PARTS--------------------------------------------------------------------------
 
-# Create dataframe with all the marks {{{
+# Grading Schemes {{{
+def set_grade(students_pod, Pod_marks, marks, lateness,GradingScheme):
+    if GradingScheme == 'PHY1610 Practical': #{{{
+        # Writing marks into the mark column
+        for i in range(0, np.size(marks)):
+            PodNo = int(students_pod[i])
+            PodMark = Pod_marks[PodNo]
+            marks[i] = PodMark
+            if lateness[i] == "Late":
+                marks[i] = marks[i] + 1
+            elif PodNo != 0:
+                marks[i] = marks[i] + 2
+    #}}}
+    if GradingScheme == 'Full': #{{{
+        for i in range(0, np.size(marks)):
+            PodNo = int(students_pod[i])
+            PodMark = Pod_marks[PodNo]
+            marks[i] = PodMark
+            if lateness[i] == "Late":
+                marks[i] = marks[i] + 1
+            elif lateness[i] == "No Work":
+                marks[i] = marks[i] + 2 - 6*0.25 
+            elif PodNo != 0:
+                marks[i] = marks[i] + 2
+    #}}}
+    if GradingScheme == 'Custom': #{{{
+        for i in range(0, np.size(marks)):
+            PodNo = int(students_pod[i])
+            PodMark = Pod_marks[PodNo]
+            marks[i] = PodMark
+            if lateness[i] == "Late":
+                marks[i] = marks[i] + 1
+            elif lateness[i] == "No Work":
+                marks[i] = marks[i] + 2 - 6*0.25 
+            elif PodNo != 0:
+                marks[i] = marks[i] + 2
+    #}}}
+    return marks
+#}}}
+
+# Functions definitions {{{
+# Grading routine{{{
+def grading(df_students, df_marks, Names, GradingScheme): 
+
+    # Extracting info from excel file {{{
+    # Student List
+    #students_last = df_students[lastnamecolumn]
+    #students_first = df_students[firstnamecolumn]
+    students_name = df_students[namecolumn]
+    students_pod = df_students[podnocolumn]
+    lateness = df_students[latenesscolumn]
+    # print(students_pod)
+
+    # Marks
+    Excel_podno = df_marks[0]
+    Excel_podmarks = df_marks[1]
+    Excel_size = len(Excel_podmarks)
+    print(Excel_podmarks)
+    #}}}
+
+    # Get the marks for each pod {{{
+    # Initialize the array with zeros and max_pod+1 elements
+    Pod_marks = [0] * (max_pod + 1)
+    # Get the marks for each pod
+    for i in range(0, Excel_size):
+        # print(i)
+        PodNo = int(Excel_podno[i])
+        Pod_marks[PodNo] = Excel_podmarks[i]
+
+    # print(Pod_marks)
+    # }}}
+    
+    # Editing the column with marks {{{
+    # Creating a column with marks
+    marks = np.zeros(np.size(students_pod))
+    df_students.append(marks)
+
+    # Do the grading according to the scheme
+    set_grade(students_pod, Pod_marks, marks, lateness,GradingScheme)
+
+    #}}}
+
+    # Put data into the dataframe {{{
+    df_students[9] = marks
+    df = pd.DataFrame(df_students)
+    df = df.T
+    df.columns = Names
+    df = df.drop(
+        [
+            "Original Pod #",
+            "Pod #, 0 if absent",
+            "Lateness"
+        ],
+        axis=1,
+    )
+    #NewNames = ["Last", "First", "Pod#", "Late", "Mark"]
+    #df.columns = NewNames
+    #}}}
+    return df
+
+#}}}
 
 # Apply alternating coloring to the excel file of the dataframe {{{
 def write_to_excel_with_alternating_colors(df, color_list, filename):
@@ -81,87 +186,26 @@ def write_to_csv(df, filename):
 #}}}
 
 # Reading excel file {{{
-# Students list
-dated = pd.read_excel(file_in, sheet_name="Pods")
-df2 = dated.values.tolist()
-df2 = list(map(list, zip(*df2)))
+def define_dataframes(file_in):
 
-# Pod marks
-dated2 = pd.read_excel(file_in, sheet_name="Marks")
-df1 = dated2.values.tolist()
-df1 = list(map(list, zip(*df1)))
+    # Students list
+    dated = pd.read_excel(file_in, sheet_name="Pods")
+    df_students = dated.values.tolist()
+    df_students = list(map(list, zip(*df_students)))
 
-# Remove rows at the start
-df2 = [row[removerows:] for row in df2]
-#}}}
+    # Pod marks
+    dated2 = pd.read_excel(file_in, sheet_name="Marks")
+    df_marks = dated2.values.tolist()
+    df_marks = list(map(list, zip(*df_marks)))
 
-# Extracting info from excel file {{{
-# student list
-#students_last = df2[lastnamecolumn]
-#students_first = df2[firstnamecolumn]
-students_name = df2[namecolumn]
-students_pod = df2[podnocolumn]
-lateness = df2[latenesscolumn]
-# print(students_pod)
+    # Remove rows at the start
+    df_students = [row[removerows:] for row in df_students]
 
-# Marks
-Excel_podno = df1[0]
-Excel_podmarks = df1[1]
-Excel_size = len(Excel_podmarks)
-print(Excel_podmarks)
-#}}}
+    # Names for the columns in final excel file
+    Names = list(dated.columns.values)
+    Names.append(PRA_name)
 
-# Get the marks for each pod {{{
-# Initialize the array with zeros and max_pod+1 elements
-Pod_marks = [0] * (max_pod + 1)
-
-# Get the marks for each pod
-for i in range(0, Excel_size):
-    # print(i)
-    PodNo = int(Excel_podno[i])
-    Pod_marks[PodNo] = Excel_podmarks[i]
-
-# print(Pod_marks)
-#}}}
-
-# Dataframe manipulation {{{
-# Creating a column with marks
-marks = np.zeros(np.size(students_pod))
-df2.append(marks)
-
-
-# Writing marks into the mark column
-for i in range(0, np.size(marks)):
-    PodNo = int(students_pod[i])
-    PodMark = Pod_marks[PodNo]
-    marks[i] = PodMark
-    if lateness[i] == "Late":
-        marks[i] = marks[i] + 1
-    elif PodNo != 0:
-        marks[i] = marks[i] + 2
-
-
-# Names for the columns in final excel file
-Names = list(dated.columns.values)
-Names.append(PRA_name)
-
-
-# Put data into the dataframe
-df2[9] = marks
-df = pd.DataFrame(df2)
-df = df.T
-df.columns = Names
-df = df.drop(
-    [
-        "Original Pod #",
-        "Pod #, 0 if absent",
-        "Lateness"
-    ],
-    axis=1,
-)
-#NewNames = ["Last", "First", "Pod#", "Late", "Mark"]
-#df.columns = NewNames
-#}}}
+    return df_students, df_marks, Names
 #}}}
 
 # Import Marks to Quercus {{{
@@ -294,8 +338,24 @@ def import_grades_to_quercus(df, username, password):
 #}}}
 #}}}
 
-# Write to file, apply coloring for excel
+#}}}
+
+#Main function
+
+# Create dataframe with all the marks {{{
+
+# Import data from excel file into the dataframes
+df_students, df_marks, Names = define_dataframes(file_in)
+
+#grading
+df = df_students = grading(df_students, df_marks, Names, GradingScheme)
+
+#}}}
+
+# Get the extension of the file
 file_extension = os.path.splitext(file_out)[1]
+file_extension = file_extension[1:]
+print(file_extension)
 
 # Excel output
 if file_extension == 'xlsx':
@@ -303,10 +363,12 @@ if file_extension == 'xlsx':
 
 # csv output + Quercus marks import
 elif file_extension == 'csv':
+    print(True)
     out_path = os.path.join(os.path.dirname(__file__), file_out).replace('\\', '/')
+    print(file_out)
     write_to_csv(df, file_out)
     if login =='':
         login = input("Enter your login: ")
     if password == '':
-        password = input("Enter your password: ")
-    import_grades_to_quercus(df, login, password)
+        password = getpass("Enter your password: ")
+    #import_grades_to_quercus(df, login, password)

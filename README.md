@@ -30,6 +30,7 @@ The following libraries are used in the code:
 * openpyxl
 * csv
 * selenium
+* getpass4
 
 # Quercus marks upload
 **The code only can upload the marks to Quercus if you set the output file type to csv**
