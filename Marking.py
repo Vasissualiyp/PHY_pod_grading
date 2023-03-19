@@ -10,16 +10,15 @@ PRA_name = "PRA5 - Upload"
 
 # Login credentials for Quercus.
 # FOR SECURITY ADVISED TO KEEP EMPTY
-login ='a'
-password = 'b'
+login =''
+password = ''
 browser = 'Chrome' #Chrome or Firefox
+TFA = 'Duo'
 webpg_course = "https://q.utoronto.ca/courses/296927"
 
 GradingScheme = 'Full' # Set what grading scheme you want to use 
 # Change it in the module "Grading_Schemes.py" 
 # Possible schemes: PHY1610 Practical, Full, Custom
-
-max_pod = 9  # The maximum pod number (leave it as 9)
 
 xlsx_colors = ["FFFFFF", "D3D3D3"]  # Colors for the excel output file
 
@@ -44,6 +43,7 @@ from Quercus import *
 #}}}
 # DEBUGGING {{{
 removerows = 0  # How manay rows to remove
+max_pod = 9  # The maximum pod number (leave it as 9)
 #}}}
 
 # Functions definitions {{{
@@ -203,12 +203,23 @@ if file_extension == 'xlsx':
 
 # csv output + Quercus marks import
 elif file_extension == 'csv':
-    out_path = os.path.join(os.path.dirname(__file__), file_out).replace('\\', '/')
-    write_to_csv(df, file_out)
     if login =='':
         login = input("Enter your login: ")
     if password == '':
         password = getpass("Enter your password: ")
-    import_grades_to_quercus(df, login, password, webpg_course)
+    auth_info = [login, password, browser, TFA]
+
+    driver = get_driver(browser) # Open the browser window
+    login_to_quercus(driver, auth_info) # Log into quercus
+    pra_id = get_assignment_id(driver, webpg_course, PRA_name) # Get the assignment ID
+    
+    # Change the name of the assignment to correctly input it later
+    PRA_name = PRA_name + ' (' + pra_id + ')'
+    out_path = os.path.join(os.path.dirname(__file__), file_out).replace('\\', '/')
+
+    course_info = [webpg_course, PRA_name, out_path]
+
+    write_to_csv(df, file_out) # Create the file with marks to export it later
+    import_grades_to_quercus(driver, df, course_info) # Import grades to quercus
 #}}}
 
