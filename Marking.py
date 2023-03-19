@@ -6,13 +6,13 @@ file_out = r"Marks.csv"  # Output file name
 
 # Name of the assignment. It requires the Quercus id of the assignment in order to work properly
 # Retrieving this ID automatically will be implemented later
-PRA_name = "PRA5 - Upload (1032967)" 
+PRA_name = "PRA5 - Upload" 
 
 # Login credentials for Quercus.
 # FOR SECURITY ADVISED TO KEEP EMPTY
 login ='a'
 password = 'b'
-browser = 'Firefox' #Chrome or Firefox
+browser = 'Chrome' #Chrome or Firefox
 webpg_course = "https://q.utoronto.ca/courses/296927"
 
 GradingScheme = 'Full' # Set what grading scheme you want to use 
@@ -33,12 +33,14 @@ from openpyxl import Workbook
 from openpyxl.styles import PatternFill
 from openpyxl.utils.dataframe import dataframe_to_rows
 import csv
-from getpass4 import getpass
+try:
+    from getpass4 import getpass
+except ImportError:
+    from getpass import getpass
 #}}}
 # Modules {{{
-import Grading_Schemes
-from Grading_Schemes import set_grade
-import Quercus
+from Grading_Schemes import *
+from Quercus import *
 #}}}
 # DEBUGGING {{{
 removerows = 0  # How manay rows to remove
@@ -82,6 +84,7 @@ def grading(df_students, df_marks, Names, GradingScheme):
     students_pod = df_students[podnocolumn]
     latenesscolumn = Names.index('Lateness') 
     lateness = df_students[latenesscolumn]
+    max_pod = max(students_pod)
     # print(students_pod)
 
     # Marks
@@ -206,6 +209,6 @@ elif file_extension == 'csv':
         login = input("Enter your login: ")
     if password == '':
         password = getpass("Enter your password: ")
-    #import_grades_to_quercus(df, login, password, webpg_course)
+    import_grades_to_quercus(df, login, password, webpg_course)
 #}}}
 

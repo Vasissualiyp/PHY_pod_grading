@@ -10,7 +10,7 @@ import time
 #}}}
 
 # Function that imports the dataframe df to quercus {{{
-def import_grades_to_quercus(df, username, password, webpg_course):
+def import_grades_to_quercus(df, username, password, webpg_course, assignment):
 
     # Log in with your account {{{
     # Launch the webdriver and navigate to the Quercus login page
@@ -41,25 +41,30 @@ def import_grades_to_quercus(df, username, password, webpg_course):
     #}}}
 
     #}}}    
-
-    #GRADEBOOK APPROACH 2
-    #Go to gradebook webpage
-    webpg_gradebook = webpg_course + "/gradebook_upload/new"
-    driver.get("https://q.utoronto.ca/courses/296927/gradebook_upload/new")
-    time.sleep(2)
-    upload_input = driver.find_element('id',"gradebook_upload_uploaded_data")
-    upload_input.send_keys(out_path)
     
-    #Click button to upload    
-    upload_button = driver.find_element_by_xpath('//input[@type="submit" and @name="commit" and @value="Upload Data"]')
-    upload_button.click()
+    # Get the assignment id {{{
+    course_id = get_assignment_id(driver, webpg_course, assignment)   
+    print(course_id)
+    #}}}
     
-    #Click button to save changes
-    time.sleep(5)
-    form_element = driver.find_element_by_css_selector('form')
-    save_changes_button = driver.find_element_by_css_selector('#gradebook_grid_form > div.button-container > button')
-    save_changes_button.click()
-    #time.sleep(4)
+    ##GRADEBOOK APPROACH 2
+    ##Go to gradebook webpage
+    #webpg_gradebook = webpg_course + "/gradebook_upload/new"
+    #driver.get("https://q.utoronto.ca/courses/296927/gradebook_upload/new")
+    #time.sleep(2)
+    #upload_input = driver.find_element('id',"gradebook_upload_uploaded_data")
+    #upload_input.send_keys(out_path)
+    #
+    ##Click button to upload    
+    #upload_button = driver.find_element_by_xpath('//input[@type="submit" and @name="commit" and @value="Upload Data"]')
+    #upload_button.click()
+    #
+    ##Click button to save changes
+    #time.sleep(5)
+    #form_element = driver.find_element_by_css_selector('form')
+    #save_changes_button = driver.find_element_by_css_selector('#gradebook_grid_form > div.button-container > button')
+    #save_changes_button.click()
+    ##time.sleep(4)
     
     #Handle the pop-up alert window (failed) {{{
     #alert = Alert(driver)
@@ -126,3 +131,17 @@ def import_grades_to_quercus(df, username, password, webpg_course):
     # Close the webdriver
     driver.quit()
 #}}}
+
+# This function gets a link from the element that contains a certain string {{{
+def get_link_for_element_with_string(driver, url, search_string):
+    driver.get(url)
+    element = driver.find_element_by_xpath(f"//a[contains(text(), '{search_string}')]")
+    link = element.get_attribute('href')
+    return link
+#}}}
+
+def get_assignment_id(driver, url, search_string):
+    link = get_link_for_element_with_string(driver, url, search_string)
+    ID = link.rsplit('/', 1)[-1]
+    ID = ID[1:]
+    return ID
