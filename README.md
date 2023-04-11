@@ -13,8 +13,10 @@ Pod_Mark is the mark for the group of students, with max being 6.
 
 The code then takes the marks of pods and students' attendance into consideration, and makes it into a nice ordered spreadsheet that is easy to put into quercus (grading website powered by canvas) (if you have the xlsx output file type).
 
-In the future, I am planning to automate uploading of marks to quercus so that everything is completely automatic. For now, you still have to put in the course webpage.
+## Configuration
+Most of the edits that you should do are located in the config.txt file. There you can put in your quercus login credentials, edit the name of the assignment (PRA_name variable), change the browser (For now Chrome and Firefox supported), give the webpage of the course, choose which grading scheme to use.
 
+When it comes to grading schemes, you will have to manually change them in the Grading.py file for now.
 
 ## Input and Output
 The input to the code the Excel file "Pods.xlsx". Inside of this spreadsheet, you have two sheets: one that contains the names of the students and all relevant information for inputting marks to Quercus, their pods, and the second sheet that contains the marks for each pod. The output of the code is a CSV file named "Marks.csv" that contains the final processed data. 
@@ -30,19 +32,13 @@ The following libraries are used in the code:
 * openpyxl
 * csv
 * selenium
-* getpass4
+* getpass4 or getpass
+* configparser
 
 # Quercus marks upload
 **The code only can upload the marks to Quercus if you set the output file type to csv**
 
 In order to upload the marks to Quercus, first you have to give the webpage of your course's gradebook. Example is provided in the script.
-
-For now, you also have to give the ID of the assignment. It is a little bit tricky to do, but the process goes like this:
-1. On the "modules" webpage of your course, find the assignment of interest that you want to mark. For me it was "PRA5 - Upload"
-2. Right click on the link that would redirect you to the assignment.
-3. Find the "inspect" option
-4. Somewhere in the pop-up window there should be a highlighted html code that describes this element on the webpage. Find the part that states its ID.
-5. Put the updated name into the script. For me, that was "PRA5 - Upload (123456)"
 
 ## Login to Quercus
 **For security reasons, I advise you not to put in your login/password as the variables. I cannot stop you from doing that, though**
@@ -50,3 +46,19 @@ For now, you also have to give the ID of the assignment. It is a little bit tric
 If you set the login credentials to an empty string (as it is advised), you will be prompted to enter your login information when you run the code. After that, if you have Two Factor Authentication on your account enabled, you should get a Duo security login notification and approve it - that is the script logging into your Quercus account to input the marks. You should be fast because the code might continue to act without waiting for you, and then you should just try again.
 
 After that the script works automatically and inputs all the marks on its own.
+
+# Setup
+1. git clone this repository
+2. Get the students list of your section from quercus using the gradebook (This step will be automated in the future)
+3. Following the Sample Pods.xlsx file example, put in only the necessary columns into your Pods.xlsx file (This also will be automated in the future)
+4. Install all required libraries (see above)
+5. Install your browser driver (it should work with the python selenium library, google how to do that)
+6. Edit your webpage address in the config.txt file
+7. Change the name of the assignment (Should be identical to one on quercus!)
+8. (Recommended to skip this step) set your login credentials for quercus in config.txt
+9. (Optional) Create your grading scheme in Grading.py and set its name in config.txt. See the grading scheme 'Full' as an example.
+10. Run Marking.py with python
+11. If you have 2FA enabled, be ready to use it on your phone. You have to be fast to do that
+12. Once the code runs, you should confirm that the uploaded marks are truthful.
+
+**USE AT YOUR OWN RISK!**
