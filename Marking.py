@@ -1,33 +1,9 @@
 # By Vasilii Pustovoit with help of ChatGPT in 2023
-# START OF EDITABLE PARTS------------------------------------------------------------------------
-
-file_in = r"Pods.xlsx"  # Filename with pod distributions
-file_out = r"Marks.csv"  # Output file name
-
-# Name of the assignment. It requires the Quercus id of the assignment in order to work properly
-# Retrieving this ID automatically will be implemented later
-PRA_name = "PRA5 - Upload" 
-
-# Login credentials for Quercus.
-# FOR SECURITY ADVISED TO KEEP EMPTY
-login =''
-password = ''
-browser = 'Chrome' #Chrome or Firefox
-TFA = 'Duo'
-webpg_course = "https://q.utoronto.ca/courses/296927"
-
-GradingScheme = 'Full' # Set what grading scheme you want to use 
-# Change it in the module "Grading_Schemes.py" 
-# Possible schemes: PHY1610 Practical, Full, Custom
-
-xlsx_colors = ["FFFFFF", "D3D3D3"]  # Colors for the excel output file
-
-# END OF EDITABLE PARTS--------------------------------------------------------------------------
-
 # Libraries {{{
 import numpy as np
 import os
 import pandas as pd
+import configparser
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill
 from openpyxl.utils.dataframe import dataframe_to_rows
@@ -41,6 +17,29 @@ except ImportError:
 from Grading_Schemes import *
 from Quercus import *
 #}}}
+# Import configuration {{{
+config = configparser.ConfigParser()
+config.read('config.txt')
+
+# Get the values from the PRA section
+PRA_name = config.get('PRA', 'PRA_name')
+
+# Get the values from the QUERCUS section
+login = config.get('QUERCUS', 'login')
+password = config.get('QUERCUS', 'password')
+browser = config.get('QUERCUS', 'browser')
+TFA = config.get('QUERCUS', 'TFA')
+webpg_course = config.get('QUERCUS', 'webpg_course')
+
+# Get the values from the FILES section
+file_in = config.get('FILES', 'file_in')
+file_out = config.get('FILES', 'file_out')
+xlsx_colors = config.get('FILES', 'xlsx_colors').split(',')
+
+# Get the values from the GRADING section
+GradingScheme = config.get('GRADING', 'GradingScheme')
+#}}}
+
 # DEBUGGING {{{
 removerows = 0  # How manay rows to remove
 max_pod = 9  # The maximum pod number (leave it as 9)

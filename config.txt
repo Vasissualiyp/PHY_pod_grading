@@ -1,0 +1,18 @@
+[PRA]
+PRA_name = PRA5 - Upload
+
+[QUERCUS]
+login =
+password =
+browser = Firefox
+TFA = Duo
+webpg_course = https://q.utoronto.ca/courses/296927
+
+[FILES]
+file_in = Pods.xlsx
+file_out = Marks.csv
+xlsx_colors = FFFFFF, D3D3D3
+
+[GRADING]
+GradingScheme = Full
+
