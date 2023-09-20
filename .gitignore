@@ -1,2 +1,6 @@
 config.txt
 env/
+Marks.*
+Pods.*
+*.log
+__pycache__/
