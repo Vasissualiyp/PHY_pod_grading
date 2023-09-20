@@ -2,8 +2,8 @@
 PRA_name = Homework 1
 
 [QUERCUS]
-login = username
-password = password
+login = 
+password = 
 browser = Firefox
 TFA = None
 webpg_course = https://q.utoronto.ca/courses/314231
