@@ -180,45 +180,47 @@ def write_to_csv(df, filename):
 
 #Main function
 
-# Create dataframe with all the marks {{{
-
-# Import data from excel file into the dataframes
-df_students, df_marks, Names = define_dataframes(file_in)
-print(Names)
-
-#grading
-df = grading(df_students, df_marks, Names, GradingScheme)
-
-#}}}
-
-# Output the dataframe into the file {{{
-# Get the extension of the file
-file_extension = os.path.splitext(file_out)[1]
-file_extension = file_extension[1:]
-
-# Excel output
-if file_extension == 'xlsx':
-    write_to_excel_with_alternating_colors(df, xlsx_colors, file_out)
-
-# csv output + Quercus marks import
-elif file_extension == 'csv':
-    if login =='':
-        login = input("Enter your login: ")
-    if password == '':
-        password = getpass("Enter your password: ")
-    auth_info = [login, password, browser, TFA]
-
-    driver = get_driver(browser) # Open the browser window
-    login_to_quercus(driver, auth_info) # Log into quercus
-    pra_id = get_assignment_id(driver, webpg_course, PRA_name) # Get the assignment ID
+if __name__ == "__main__":
+    # Create dataframe with all the marks {{{
     
-    # Change the name of the assignment to correctly input it later
-    PRA_name = PRA_name + ' (' + pra_id + ')'
-    out_path = os.path.join(os.path.dirname(__file__), file_out).replace('\\', '/')
-
-    course_info = [webpg_course, PRA_name, out_path]
-
-    write_to_csv(df, file_out) # Create the file with marks to export it later
-    import_grades_to_quercus(driver, df, course_info) # Import grades to quercus
-#}}}
-
+    # Import data from excel file into the dataframes
+    df_students, df_marks, Names = define_dataframes(file_in)
+    print(Names)
+    
+    #grading
+    df = grading(df_students, df_marks, Names, GradingScheme)
+    
+    #}}}
+    
+    
+    # Output the dataframe into the file {{{
+    # Get the extension of the file
+    file_extension = os.path.splitext(file_out)[1]
+    file_extension = file_extension[1:]
+    
+    # Excel output
+    if file_extension == 'xlsx':
+        write_to_excel_with_alternating_colors(df, xlsx_colors, file_out)
+    
+    # csv output + Quercus marks import
+    elif file_extension == 'csv':
+        if login =='':
+            login = input("Enter your login: ")
+        if password == '':
+            password = getpass("Enter your password: ")
+        auth_info = [login, password, browser, TFA]
+    
+        driver = get_driver(browser) # Open the browser window
+        login_to_quercus(driver, auth_info) # Log into quercus
+        pra_id = get_assignment_id(driver, webpg_course, PRA_name) # Get the assignment ID
+        
+        # Change the name of the assignment to correctly input it later
+        PRA_name = PRA_name + ' (' + pra_id + ')'
+        out_path = os.path.join(os.path.dirname(__file__), file_out).replace('\\', '/')
+    
+        course_info = [webpg_course, PRA_name, out_path]
+    
+        write_to_csv(df, file_out) # Create the file with marks to export it later
+        import_grades_to_quercus(driver, df, course_info) # Import grades to quercus
+    #}}}
+    

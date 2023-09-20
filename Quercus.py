@@ -3,6 +3,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
@@ -110,3 +111,17 @@ def get_assignment_id(driver, url, search_string):
     ID = link.rsplit('/', 1)[-1]
     #ID = ID[1:]
     return ID
+
+def get_students_group(driver, webpg_course, Student_group):
+    time.sleep(1)
+    # Go to the gradebook page
+    webpg_gradebook = webpg_course + "/gradebook"
+    driver.get(webpg_gradebook)
+    time.sleep(2)
+
+    x = driver.find_element('css selector', '#uOgDapYPnaO3')
+    drop=Select(x)
+    #drop.select_by_visible_text("Export Entire Gradebook")
+    
+    #element_to_click.click()
+    time.sleep(2)
