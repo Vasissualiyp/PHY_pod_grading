@@ -1,0 +1,6 @@
+numpy
+pandas
+openpyxl
+selenium
+gepass4
+configparser

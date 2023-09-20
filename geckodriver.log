@@ -1,0 +1,141 @@
+1695242693132	geckodriver	INFO	Listening on 127.0.0.1:47403
+1695242693158	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr ... te" "--remote-debugging-port" "53699" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileaaNjgm"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+[GFX1-]: vaapitest: ERROR
+[GFX1-]: vaapitest: VA-API test failed: failed to initialise VAAPI connection.
+
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1695242693470	Marionette	INFO	Marionette enabled
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1695242693533	Marionette	INFO	Listening on port 40441
+WebDriver BiDi listening on ws://127.0.0.1:53699
+Read port: 40441
+1695242693636	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:53699/devtools/browser/92e23773-0303-4ba9-bf66-a2bd2574437e
+JavaScript warning: https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://idpz.utorauth.utoronto.ca."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://idpz.utorauth.utoronto.ca."
+JavaScript warning: https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+1695242695388	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://api-832cdf07.duosecurity.com."
+JavaScript warning: https://www.googletagmanager.com/gtag/js?id=G-JQDSE1YPEX&l=dataLayer&cx=c, line 153: Script terminated by timeout at:
+l@https://www.googletagmanager.com/gtag/js?id=G-JQDSE1YPEX&l=dataLayer&cx=c:153:17
+Cz@https://www.googletagmanager.com/gtag/js?id=G-JQDSE1YPEX&l=dataLayer&cx=c:454:134
+Dz/<@https://www.googletagmanager.com/gtag/js?id=G-JQDSE1YPEX&l=dataLayer&cx=c:454:111
+r@https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js:6553:10
+
+1695242719768	Marionette	INFO	Stopped listening on port 40441
+1695242772603	geckodriver	INFO	Listening on 127.0.0.1:58525
+1695242772620	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr ... te" "--remote-debugging-port" "52353" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofilecoh9kt"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+[GFX1-]: vaapitest: ERROR
+[GFX1-]: vaapitest: VA-API test failed: failed to initialise VAAPI connection.
+
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1695242772974	Marionette	INFO	Marionette enabled
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1695242773043	Marionette	INFO	Listening on port 36063
+WebDriver BiDi listening on ws://127.0.0.1:52353
+Read port: 36063
+1695242773144	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:52353/devtools/browser/b8c195e4-c1c3-4944-b317-f6926f4c1f4e
+JavaScript warning: https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://idpz.utorauth.utoronto.ca."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://idpz.utorauth.utoronto.ca."
+JavaScript warning: https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+1695242782664	Marionette	INFO	Stopped listening on port 36063
+1695242792785	geckodriver	INFO	Listening on 127.0.0.1:52989
+1695242792802	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr ... te" "--remote-debugging-port" "40629" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileLIKfHd"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+[GFX1-]: vaapitest: ERROR
+[GFX1-]: vaapitest: VA-API test failed: failed to initialise VAAPI connection.
+
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1695242793162	Marionette	INFO	Marionette enabled
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1695242793223	Marionette	INFO	Listening on port 41557
+WebDriver BiDi listening on ws://127.0.0.1:40629
+Read port: 41557
+1695242793324	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:40629/devtools/browser/a9791999-22ad-4638-bdd7-18aeee169357
+JavaScript warning: https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://idpz.utorauth.utoronto.ca."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://idpz.utorauth.utoronto.ca."
+JavaScript warning: https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+1695242795718	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://api-832cdf07.duosecurity.com."
+console.error: "update.locale" " file doesn't exist in either the application or GRE directories"
+1695242828277	geckodriver	INFO	Listening on 127.0.0.1:46883
+1695242828294	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr ... te" "--remote-debugging-port" "35435" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileMKbshl"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+[GFX1-]: vaapitest: ERROR
+[GFX1-]: vaapitest: VA-API test failed: failed to initialise VAAPI connection.
+
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1695242828585	Marionette	INFO	Marionette enabled
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1695242828642	Marionette	INFO	Listening on port 35479
+WebDriver BiDi listening on ws://127.0.0.1:35435
+Read port: 35479
+1695242828740	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:35435/devtools/browser/655920e6-8587-4f2c-bc32-af82b152467a
+JavaScript error: resource://gre/modules/shared/FormAutofillHandler.sys.mjs, line 78: TypeError: this.window is null
+1695242830449	Marionette	INFO	Stopped listening on port 35479
+JavaScript warning: https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js, line 6551: Script terminated by timeout at:
+r@https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js:6551:9
+
+1695242831427	Marionette	INFO	Stopped listening on port 41557
+1695242840980	geckodriver	INFO	Listening on 127.0.0.1:59355
+1695242841002	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr ... te" "--remote-debugging-port" "58415" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileXLkwmI"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+[GFX1-]: vaapitest: ERROR
+[GFX1-]: vaapitest: VA-API test failed: failed to initialise VAAPI connection.
+
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1695242841304	Marionette	INFO	Marionette enabled
+ATTENTION: default value of option mesa_glthread overridden by environment.
+1695242841366	Marionette	INFO	Listening on port 41571
+WebDriver BiDi listening on ws://127.0.0.1:58415
+Read port: 41571
+1695242841468	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:58415/devtools/browser/ed837d1e-6405-4b69-ab1f-f01765e0d2d4
+JavaScript warning: https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://idpz.utorauth.utoronto.ca."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://idpz.utorauth.utoronto.ca."
+JavaScript warning: https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+1695242843466	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://api-832cdf07.duosecurity.com."
+JavaScript warning: https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js, line 30608: Script terminated by timeout at:
+Ee/<@https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js:30608:5
+n@https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js:30585:113
+
+JavaScript error: https://instructure-uploads-yul.s3.ca-central-1.amazonaws.com/account_118340000000000001/attachments/24721051/UT_CustomJS_20210412-PRD-GTM.js, line 59: SyntaxError: JSON.parse: unexpected non-whitespace character after JSON data at line 1 column 5 of the JSON data
+JavaScript warning: https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js, line 30608: Script terminated by timeout at:
+Ee/<@https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js:30608:5
+n@https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js:30585:113
+
+JavaScript error: https://instructure-uploads-yul.s3.ca-central-1.amazonaws.com/account_118340000000000001/attachments/24721051/UT_CustomJS_20210412-PRD-GTM.js, line 59: SyntaxError: JSON.parse: unexpected non-whitespace character after JSON data at line 1 column 5 of the JSON data
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://q.utoronto.ca."
+JavaScript error: https://instructure-uploads-yul.s3.ca-central-1.amazonaws.com/account_118340000000000001/attachments/24721051/UT_CustomJS_20210412-PRD-GTM.js, line 59: SyntaxError: JSON.parse: unexpected non-whitespace character after JSON data at line 1 column 5 of the JSON data
+JavaScript warning: https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js, line 30608: Script terminated by timeout at:
+Ee/<@https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js:30608:5
+n@https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js:30585:113
+
+JavaScript error: https://instructure-uploads-yul.s3.ca-central-1.amazonaws.com/account_118340000000000001/attachments/24721051/UT_CustomJS_20210412-PRD-GTM.js, line 59: SyntaxError: JSON.parse: unexpected non-whitespace character after JSON data at line 1 column 5 of the JSON data
+JavaScript error: https://instructure-uploads-yul.s3.ca-central-1.amazonaws.com/account_118340000000000001/attachments/24721051/UT_CustomJS_20210412-PRD-GTM.js, line 59: SyntaxError: JSON.parse: unexpected non-whitespace character after JSON data at line 1 column 5 of the JSON data
+console.error: "update.locale" " file doesn't exist in either the application or GRE directories"
+JavaScript warning: https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js, line 30608: Script terminated by timeout at:
+Ee/<@https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js:30608:5
+n@https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/main-e-40f8f38df4.js:30585:113
+
+JavaScript error: https://instructure-uploads-yul.s3.ca-central-1.amazonaws.com/account_118340000000000001/attachments/24721051/UT_CustomJS_20210412-PRD-GTM.js, line 59: SyntaxError: JSON.parse: unexpected non-whitespace character after JSON data at line 1 column 5 of the JSON data

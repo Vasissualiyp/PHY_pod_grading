@@ -1,12 +1,12 @@
 [PRA]
-PRA_name = PRA5 - Upload
+PRA_name = Homework 1
 
 [QUERCUS]
-login =
-password =
+login = username
+password = password
 browser = Firefox
-TFA = Duo
-webpg_course = https://q.utoronto.ca/courses/296927
+TFA = None
+webpg_course = https://q.utoronto.ca/courses/314231
 
 [FILES]
 file_in = Pods.xlsx

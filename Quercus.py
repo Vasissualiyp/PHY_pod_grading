@@ -46,8 +46,8 @@ def login_to_quercus(driver, auth_info):
         # locate and click the "Send Me a Push" button
         push_button = driver.find_element('xpath',"//button[contains(text(),'Send Me a Push')]")
         push_button.click()
-        time.sleep(4)
     #}}}
+    time.sleep(4)
 
     #}}}    
 #}}}
