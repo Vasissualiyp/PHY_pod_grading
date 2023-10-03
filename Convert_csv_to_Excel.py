@@ -98,5 +98,5 @@ def convert_csv_to_excel(csv_path, sample_excel_path, output_excel_path, column_
     return output_excel_path
 
 # Example usage of the function
-convert_csv_to_excel("./Practical 2/PHY151_Pods_Prac2_SAMPLE.csv", "./Sample Pods File.xlsx", "./Converted_Pods_File_Function.xlsx")
+convert_csv_to_excel("./Practical 2/PHY151_Pods_Prac2.csv", "./Sample Pods File.xlsx", "./Converted_Pods_File_Function.xlsx")
 
