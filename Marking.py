@@ -82,7 +82,11 @@ def grading(df_students, df_marks, Names, GradingScheme):
     podnocolumn = Names.index('Pod #, 0 if absent')
     students_pod = df_students[podnocolumn]
     latenesscolumn = Names.index('Lateness') 
-    lateness = df_students[latenesscolumn]
+    if GradingScheme == 'Grades_Column':
+        gradescolumn = Names.index('Grades') 
+        lateness = df_students[gradescolumn]
+    else:
+        lateness = df_students[latenesscolumn]
     max_pod = max(students_pod)
     # print(students_pod)
 
@@ -111,7 +115,9 @@ def grading(df_students, df_marks, Names, GradingScheme):
     df_students.append(marks)
 
     # Do the grading according to the scheme
-    set_grade(students_pod, Pod_marks, marks, lateness,GradingScheme)
+    if GradingScheme == 'Grades Column':
+        lateness = df_students
+    set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme)
 
     #}}}
 
@@ -213,6 +219,8 @@ if __name__ == "__main__":
         driver = get_driver(browser) # Open the browser window
         login_to_quercus(driver, auth_info) # Log into quercus
         pra_id = get_assignment_id(driver, webpg_course, PRA_name) # Get the assignment ID
+        print("Retrieved the assignment ID")
+        time.sleep(2)
         
         # Change the name of the assignment to correctly input it later
         PRA_name = PRA_name + ' (' + pra_id + ')'

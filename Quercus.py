@@ -63,12 +63,14 @@ def import_grades_to_quercus(driver, df, course_info):
     #}}}
 
     
-    time.sleep(4)
+    time.sleep(5)
+    print("Using Gradebook approach 2...")
     #GRADEBOOK APPROACH 2
     #Go to gradebook webpage
     webpg_gradebook = webpg_course + "/gradebook_upload/new"
     driver.get(webpg_gradebook)
     time.sleep(2)
+    print("Now uploading grades...")
     upload_input = driver.find_element('id',"gradebook_upload_uploaded_data")
     upload_input.send_keys(out_path)
     
@@ -106,6 +108,7 @@ def get_link_for_element_with_string(driver, url, search_string):
 #}}}
 
 def get_assignment_id(driver, url, search_string):
+    print("Getting assignment id...")
     url = url + '/assignments'
     link = get_link_for_element_with_string(driver, url, search_string)
     ID = link.rsplit('/', 1)[-1]
