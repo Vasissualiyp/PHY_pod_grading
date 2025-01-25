@@ -1,0 +1,18 @@
+[PRA]
+PRA_name = Practical 10
+Student_group = W6A
+
+[QUERCUS]
+login = your_login
+password = your_password
+browser = Firefox
+TFA = None
+webpg_course = https://q.utoronto.ca/courses/123456
+
+[FILES]
+file_in = Practical_10/Pods.xlsx
+file_out = Marks.csv
+xlsx_colors = FFFFFF, D3D3D3
+
+[GRADING]
+GradingScheme = Full
