@@ -12,9 +12,14 @@ try:
     from getpass4 import getpass
 except ImportError:
     from getpass import getpass
+
+
 # Modules 
+quercus_grading = False
+
 from Grading_Schemes import *
-from Quercus import *
+if quercus_grading:
+    from Quercus import *
 # Import configuration 
 config = configparser.ConfigParser()
 config.read('config.txt')
@@ -36,6 +41,8 @@ xlsx_colors = config.get('FILES', 'xlsx_colors').split(',')
 
 # Get the values from the GRADING section
 GradingScheme = config.get('GRADING', 'GradingScheme')
+
+individual_grades_datasets = [ "PHY131_Practical_W2025" ]
 
 # DEBUGGING 
 removerows = 0  # How manay rows to remove
@@ -94,11 +101,16 @@ def grading(df_students, df_marks, Names, GradingScheme):
     # Get the marks for each pod 
     # Initialize the array with zeros and max_pod+1 elements
     Pod_marks = [0] * (max_pod + 1)
+    if GradingScheme in individual_grades_datasets:
+        Excel_podmarks_extra = df_marks[2]
+        Pod_marks_extra = [0] * (max_pod + 1)
     # Get the marks for each pod
     for i in range(0, Excel_size):
         # print(i)
         PodNo = int(Excel_podno[i])
         Pod_marks[PodNo] = Excel_podmarks[i]
+        if GradingScheme in individual_grades_datasets:
+            Pod_marks_extra[PodNo] = Excel_podmarks_extra[i]
 
     # print(Pod_marks)
     
@@ -110,7 +122,10 @@ def grading(df_students, df_marks, Names, GradingScheme):
     # Do the grading according to the scheme
     if GradingScheme == 'Grades Column':
         lateness = df_students
-    set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme)
+    if GradingScheme not in individual_grades_datasets: 
+        set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme)
+    else:
+        set_grade_individual_scheme(students_pod, Pod_marks, Pod_marks_extra, marks, lateness, GradingScheme)
 
 
     # Put data into the dataframe 
@@ -144,17 +159,18 @@ def write_to_excel_with_alternating_colors(df, color_list, filename):
         ws.append(r)
 
     # Set alternating row colors
-    for i, row in enumerate(ws.iter_rows(min_row=2)):
-        fill = PatternFill(
-            start_color=color_list[i % len(color_list)],
-            end_color=color_list[i % len(color_list)],
-            fill_type="solid",
-        )
-        for cell in row:
-            cell.fill = fill
+    #for i, row in enumerate(ws.iter_rows(min_row=2)):
+    #    fill = PatternFill(
+    #        start_color=color_list[i % len(color_list)],
+    #        end_color=color_list[i % len(color_list)],
+    #        fill_type="solid",
+    #    )
+    #    for cell in row:
+    #        cell.fill = fill
 
     # Save the workbook
     wb.save(filename)
+    print(f"Saved the output into {filename}!")
 
 #Write the dataframe into the CSV file 
 def write_to_csv(df, filename):
@@ -193,7 +209,7 @@ if __name__ == "__main__":
         write_to_excel_with_alternating_colors(df, xlsx_colors, file_out)
     
     # csv output + Quercus marks import
-    elif file_extension == 'csv':
+    elif file_extension == 'csv' and quercus_grading:
         if login =='':
             login = input("Enter your login: ")
         if password == '':

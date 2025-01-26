@@ -1,5 +1,5 @@
 # By Vasilii Pustovoit with help of ChatGPT in 2023
-# Libraries {{{
+# Libraries 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -8,27 +8,26 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.alert import Alert
 import time
-#}}}
 
-# Get driver {{{
+# Get driver 
 def get_driver(browser):
     # Launch the webdriver and navigate to the Quercus login page
     if browser == 'Chrome':
         driver = webdriver.Chrome()
-    if browser == 'Firefox':
+    elif browser == 'Firefox':
         driver = webdriver.Firefox()
+    else:
+        exit(1)
     return driver 
-#}}}
 
-# Log into quercus {{{
+# Log into quercus 
 def login_to_quercus(driver, auth_info):
-    # Read data from the input arrays {{{
+    # Read data from the input arrays 
     username = auth_info[0]
     password = auth_info[1]
     browser = auth_info[2]
     TFA= auth_info[3]
-    #}}}
-    # Log in with your account {{{
+    # Log in with your account 
     # Enter the login information and submit the form
     driver.get("https://q.utoronto.ca")
     username_field = driver.find_element('name',"j_username")
@@ -37,7 +36,7 @@ def login_to_quercus(driver, auth_info):
     password_field.send_keys(password)
     password_field.send_keys(Keys.RETURN)
     
-    # Two Factor Authentification {{{
+    # Two Factor Authentification 
     if TFA=='Duo':
         # Wait for the page to load and navigate to the gradebook page
         time.sleep(2)
@@ -47,20 +46,16 @@ def login_to_quercus(driver, auth_info):
         # locate and click the "Send Me a Push" button
         push_button = driver.find_element('xpath',"//button[contains(text(),'Send Me a Push')]")
         push_button.click()
-    #}}}
     time.sleep(4)
 
-    #}}}    
-#}}}
 
-# Function that imports the dataframe df to quercus {{{
+# Function that imports the dataframe df to quercus 
 def import_grades_to_quercus(driver, df, course_info):
 
-    # Read data from the input arrays {{{
+    # Read data from the input arrays 
     webpg_course = course_info[0]
     assignment = course_info[1]
     out_path = course_info[2]
-    #}}}
 
     
     time.sleep(5)
@@ -85,19 +80,17 @@ def import_grades_to_quercus(driver, df, course_info):
     #save_changes_button.click()
     time.sleep(10)
     
-    #Handle the pop-up alert window (failed) {{{
+    #Handle the pop-up alert window (failed) 
     #alert = Alert(driver)
     #alert.accept()
     #driver.switch_to.window(driver.window_handles[-1])
     #driver.find_element_by_tag_name("body").send_keys(Keys.ENTER)
-    #}}}
     
 
     # Close the webdriver
     driver.quit()
-#}}}
 
-# This function gets a link from the element that contains a certain string {{{
+# This function gets a link from the element that contains a certain string 
 def get_link_for_element_with_string(driver, url, search_string):
     driver.get(url)
     time.sleep(1)
@@ -105,7 +98,6 @@ def get_link_for_element_with_string(driver, url, search_string):
     link = element.get_attribute('href')
     print(link)
     return link
-#}}}
 
 def get_assignment_id(driver, url, search_string):
     print("Getting assignment id...")
