@@ -1,5 +1,5 @@
 # By Vasilii Pustovoit with help of ChatGPT in 2023
-# Libraries {{{
+# Libraries 
 import numpy as np
 import os
 import pandas as pd
@@ -12,12 +12,10 @@ try:
     from getpass4 import getpass
 except ImportError:
     from getpass import getpass
-#}}}
-# Modules {{{
+# Modules 
 from Grading_Schemes import *
 from Quercus import *
-#}}}
-# Import configuration {{{
+# Import configuration 
 config = configparser.ConfigParser()
 config.read('config.txt')
 
@@ -38,16 +36,14 @@ xlsx_colors = config.get('FILES', 'xlsx_colors').split(',')
 
 # Get the values from the GRADING section
 GradingScheme = config.get('GRADING', 'GradingScheme')
-#}}}
 
-# DEBUGGING {{{
+# DEBUGGING 
 removerows = 0  # How manay rows to remove
 max_pod = 9  # The maximum pod number (leave it as 9)
-#}}}
 
-# Functions definitions {{{
+# Functions definitions 
 
-# Reading excel file {{{
+# Reading excel file 
 def define_dataframes(file_in):
 
     # Students list
@@ -68,12 +64,11 @@ def define_dataframes(file_in):
     Names.append(PRA_name)
 
     return df_students, df_marks, Names
-#}}}
 
-# Grading routine{{{
+# Grading routine
 def grading(df_students, df_marks, Names, GradingScheme): 
 
-    # Extracting info from excel file {{{
+    # Extracting info from excel file 
     # Student List
     #students_last = df_students[lastnamecolumn]
     #students_first = df_students[firstnamecolumn]
@@ -95,9 +90,8 @@ def grading(df_students, df_marks, Names, GradingScheme):
     Excel_podmarks = df_marks[1]
     Excel_size = len(Excel_podmarks)
     print(Excel_podmarks)
-    #}}}
 
-    # Get the marks for each pod {{{
+    # Get the marks for each pod 
     # Initialize the array with zeros and max_pod+1 elements
     Pod_marks = [0] * (max_pod + 1)
     # Get the marks for each pod
@@ -107,9 +101,8 @@ def grading(df_students, df_marks, Names, GradingScheme):
         Pod_marks[PodNo] = Excel_podmarks[i]
 
     # print(Pod_marks)
-    # }}}
     
-    # Editing the column with marks {{{
+    # Editing the column with marks 
     # Creating a column with marks
     marks = np.zeros(np.size(students_pod))
     df_students.append(marks)
@@ -119,9 +112,8 @@ def grading(df_students, df_marks, Names, GradingScheme):
         lateness = df_students
     set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme)
 
-    #}}}
 
-    # Put data into the dataframe {{{
+    # Put data into the dataframe 
     df_students[9] = marks
     df = pd.DataFrame(df_students)
     df = df.T
@@ -136,12 +128,10 @@ def grading(df_students, df_marks, Names, GradingScheme):
     )
     #NewNames = ["Last", "First", "Pod#", "Late", "Mark"]
     #df.columns = NewNames
-    #}}}
     return df
 
-#}}}
 
-# Apply alternating coloring to the excel file of the dataframe {{{
+# Apply alternating coloring to the excel file of the dataframe 
 def write_to_excel_with_alternating_colors(df, color_list, filename):
     # Create a new workbook
     wb = Workbook()
@@ -165,9 +155,8 @@ def write_to_excel_with_alternating_colors(df, color_list, filename):
 
     # Save the workbook
     wb.save(filename)
-#}}}
 
-#Write the dataframe into the CSV file {{{
+#Write the dataframe into the CSV file 
 def write_to_csv(df, filename):
     # Open the output file
     with open(filename, "w", newline="", encoding="utf-8") as f:
@@ -180,14 +169,12 @@ def write_to_csv(df, filename):
         # Write the DataFrame rows to the CSV file
         for i, row in df.iterrows():
             writer.writerow(row)
-#}}}
 
-#}}}
 
 #Main function
 
 if __name__ == "__main__":
-    # Create dataframe with all the marks {{{
+    # Create dataframe with all the marks 
     
     # Import data from excel file into the dataframes
     df_students, df_marks, Names = define_dataframes(file_in)
@@ -196,10 +183,7 @@ if __name__ == "__main__":
     #grading
     df = grading(df_students, df_marks, Names, GradingScheme)
     
-    #}}}
-    
-    
-    # Output the dataframe into the file {{{
+    # Output the dataframe into the file 
     # Get the extension of the file
     file_extension = os.path.splitext(file_out)[1]
     file_extension = file_extension[1:]
@@ -230,5 +214,4 @@ if __name__ == "__main__":
     
         write_to_csv(df, file_out) # Create the file with marks to export it later
         import_grades_to_quercus(driver, df, course_info) # Import grades to quercus
-    #}}}
     

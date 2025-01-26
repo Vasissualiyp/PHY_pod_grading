@@ -1,8 +1,7 @@
 # By Vasilii Pustovoit with help of ChatGPT in 2023
 import numpy as np
-# Grading Schemes {{{
-def set_grade(students_pod, Pod_marks, marks, lateness,GradingScheme):
-    if GradingScheme == 'PHY1610_Practical': #{{{
+def set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme):
+    if GradingScheme == 'PHY1610_Practical':
         # Writing marks into the mark column
         for i in range(0, np.size(marks)):
             PodNo = int(students_pod[i])
@@ -12,15 +11,13 @@ def set_grade(students_pod, Pod_marks, marks, lateness,GradingScheme):
                 marks[i] = marks[i] + 1
             elif PodNo != 0:
                 marks[i] = marks[i] + 2
-    #}}}
-    if GradingScheme == 'Grades_Column': #{{{
+    if GradingScheme == 'Grades_Column':
         # Writing marks into the mark column
         for i in range(0, np.size(marks)):
             PodNo = int(students_pod[i])
             PodMark = Pod_marks[PodNo] * 0
             marks[i] = PodMark + lateness[i]
-    #}}}
-    if GradingScheme == 'Full': #{{{
+    if GradingScheme == 'Full':
         for i in range(0, np.size(marks)):
             PodNo = int(students_pod[i])
             PodMark = Pod_marks[PodNo]
@@ -31,8 +28,7 @@ def set_grade(students_pod, Pod_marks, marks, lateness,GradingScheme):
                 marks[i] = marks[i] + 2 - 6*0.25 
             elif PodNo != 0:
                 marks[i] = marks[i] + 2
-    #}}}
-    if GradingScheme == 'Custom': #{{{
+    if GradingScheme == 'Custom':
         for i in range(0, np.size(marks)):
             PodNo = int(students_pod[i])
             PodMark = Pod_marks[PodNo]
@@ -43,6 +39,4 @@ def set_grade(students_pod, Pod_marks, marks, lateness,GradingScheme):
                 marks[i] = marks[i] + 2 - 6*0.25 
             elif PodNo != 0:
                 marks[i] = marks[i] + 2
-    #}}}
     return marks
-#}}}
