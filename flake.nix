@@ -15,6 +15,33 @@
             allowUnfree = true;
           };
         };
+        caugetch = pkgs.python311Packages.buildPythonPackage rec {
+          pname = "caugetch";
+          version = "0.0.1";
+          #format = "wheel";
+
+          src = pkgs.fetchFromGitHub {
+            owner = "joeyespo";
+            repo = "py-getch";
+            rev = "24a625f24fbdc2d333db3d8a6f1b25071b2b16ae";
+            hash = "sha256-FvpemQDIHTQglDx2Nl2AwQhzwRyW+VX7022IcvjRWCg=";
+          };
+        };
+        getpass4 = pkgs.python311Packages.buildPythonPackage rec {
+          pname = "getpass4";
+          version = "0.0.14.1";
+          #format = "wheel";
+          src = pkgs.python311Packages.fetchPypi{
+            inherit pname version;
+            sha256 = "sha256-gKpOOmZfLszGzaPuIhJe61xjOOkcQMT9AQs8lMeqTTo=";
+          };
+          buildInputs = [ caugetch ];
+          postPatch = ''
+            sed -i 's/import caugetch/import getch/g' getpass4/*.py
+            echo "Placeholder LICENSE" > LICENSE
+          '';
+        };
+
         python = pkgs.python311Packages.python;
         pythonEnv = python.withPackages (ps: with ps; [
           pandas
@@ -22,7 +49,8 @@
           openpyxl
           configparser
           selenium
-          #getpass
+          getpass4
+          caugetch
 
           #csv
           #scipy
@@ -37,6 +65,9 @@
             firefox
             google-chrome
           ];
+          shellHook = ''
+          python passtest.py
+          '';
         };
       }
     );
