@@ -66,7 +66,10 @@
             google-chrome
           ];
           shellHook = ''
-          python passtest.py
+          echo "Welcome to PHY Pod Grader!"
+		  echo "Change the config file from sample_config.txt to whatever you want"
+		  echo "Edit the grading scheme in Grading_Schemes.py"
+		  echo "And run Marking.py to perform the grading and upload (if you set output to csv)"
           '';
         };
       }
