@@ -3,13 +3,6 @@ import numpy as np
 def set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme):
     for i in range(0, np.size(marks)):
         PodNo = int(students_pod[i])
-        if GradingScheme == 'PHY1610_Practical':
-            PodMark = Pod_marks[PodNo]
-            marks[i] = PodMark
-            if lateness[i] == "Late":
-                marks[i] = marks[i] + 1
-            elif PodNo != 0:
-                marks[i] = marks[i] + 2
         if GradingScheme == 'PHY131_Practical_W2025':
             PodMark = Pod_marks[PodNo]
             marks[i] = PodMark
@@ -17,10 +10,10 @@ def set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme):
                 marks[i] = marks[i] + 1
             elif PodNo != 0:
                 marks[i] = marks[i] + 2
-        if GradingScheme == 'Grades_Column':
+        elif GradingScheme == 'Grades_Column':
             PodMark = Pod_marks[PodNo] * 0
             marks[i] = PodMark + lateness[i]
-        if GradingScheme == 'Full':
+        elif GradingScheme == 'Full':
             PodMark = Pod_marks[PodNo]
             marks[i] = PodMark
             if lateness[i] == "Late":
@@ -29,7 +22,7 @@ def set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme):
                 marks[i] = marks[i] + 2 - 6*0.25 
             elif PodNo != 0:
                 marks[i] = marks[i] + 2
-        if GradingScheme == 'Custom':
+        elif GradingScheme == 'Custom':
             PodMark = Pod_marks[PodNo]
             marks[i] = PodMark
             if lateness[i] == "Late":
@@ -38,4 +31,28 @@ def set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme):
                 marks[i] = marks[i] + 2 - 6*0.25 
             elif PodNo != 0:
                 marks[i] = marks[i] + 2
+        else: 
+            print(f"Grading scheme {GradingScheme} not defined.")
+            raise ValueError(f"Grading scheme {GradingScheme} not defined.")
     return marks
+
+def set_grade_individual_scheme(students_pod, Pod_marks, Pod_marks_extra, marks, marks_extra, lateness, GradingScheme):
+    print(f"Pod_marks: {Pod_marks}")
+    print(f"Pod_marks_extra: {Pod_marks_extra}")
+    individual = np.zeros_like(marks)
+    for i in range(0, np.size(students_pod)):
+        PodNo = int(students_pod[i])
+        print(f"PodNo for student {i}: {PodNo}")
+        if GradingScheme == 'PHY131_Practical_W2025':
+            PodMark = Pod_marks[PodNo]
+            PodMark_extra = Pod_marks_extra[PodNo]
+            marks[i] = PodMark
+            marks_extra[i] = PodMark_extra
+            if PodNo != 0:
+                individual[i] = 1
+            print(f"Mark for student {i}: {PodMark}")
+            print(f"Extra Mark for student {i}: {PodMark_extra}")
+        else: 
+            print(f"Grading scheme {GradingScheme} not defined.")
+            raise ValueError(f"Grading scheme {GradingScheme} not defined.")
+    return [ marks, marks_extra, individual, lateness ]
