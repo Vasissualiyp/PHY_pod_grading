@@ -265,6 +265,8 @@ class Marking():
         
             self.write_to_csv(df, self.config.file_out) # Create the file with marks to export it later
             import_grades_to_quercus(driver, df, course_info) # Import grades to quercus
+        elif file_extension == 'csv' and not quercus_grading:
+            self.write_to_csv(df, self.config.file_out) # Create the file with marks to export it later
     
 
 #Main function
