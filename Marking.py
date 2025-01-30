@@ -1,4 +1,3 @@
-# By Vasilii Pustovoit with help of ChatGPT in 2023
 # Libraries 
 import numpy as np
 import os
@@ -9,58 +8,60 @@ from openpyxl import Workbook
 from openpyxl.styles import PatternFill
 from openpyxl.utils.dataframe import dataframe_to_rows
 import csv
-try:
-    from getpass4 import getpass
-except ImportError:
-    from getpass import getpass
-
-
-# Modules 
-quercus_grading = False
 
 from Grading_Schemes import set_grade, set_grade_individual_scheme
-if quercus_grading:
-    from Quercus import import_grades_to_quercus, login_to_quercus, get_assignment_id, get_driver
-# Import configuration 
 
+def import_Quercus():
+    """
+    Imports Quercus-specific functions
+    """
+    from Quercus import import_grades_to_quercus, login_to_quercus, get_assignment_id, get_driver
+    try:
+        from getpass4 import getpass
+    except ImportError:
+        from getpass import getpass
+
+# Import configuration 
 class PhyConfig():
-    """A class that holds config data"""
+    '''A class that holds config data'''
     def __init__(self, config_file="config.txt"):
-        """Create a new instance of the class"""
+        '''Create a new instance of the class'''
         config = configparser.ConfigParser()
-        config.read('config.txt')
+        config.read(config_file)
         
         # Get the values from the PRA section
-        self.PRA_name = config.get('PRA', 'PRA_name')
+        PRA_no = config.get('PRA', 'PRA_no')
         
         # Get the values from the QUERCUS section
+        self.quercus_grading = config.get('QUERCUS', 'quercus_grading')
         self.login = config.get('QUERCUS', 'login')
         self.password = config.get('QUERCUS', 'password')
         self.browser = config.get('QUERCUS', 'browser')
         self.TFA = config.get('QUERCUS', 'TFA')
         self.webpg_course = config.get('QUERCUS', 'webpg_course')
+        self.student_group = config.get('QUERCUS', 'student_group')
         
         # Get the values from the FILES section
-        self.file_in = config.get('FILES', 'file_in')
-        self.file_out = config.get('FILES', 'file_out')
+        file_in = config.get('FILES', 'file_in')
+        file_out = config.get('FILES', 'file_out')
         self.xlsx_colors = config.get('FILES', 'xlsx_colors').split(',')
         
         # Get the values from the GRADING section
+        PRA_name_prefix = config.get('GRADING', 'PRA_name_prefix')
         self.GradingScheme = config.get('GRADING', 'GradingScheme')
 
-# DEBUGGING 
-removerows = 0  # How manay rows to remove
-max_pod = 9  # The maximum pod number (leave it as 9)
+        self.PRA_name = PRA_name_prefix + PRA_no
+        self.file_in  = os.path.join(self.PRA_name, file_in)
+        self.file_out = os.path.join(self.PRA_name, file_out)
 
 # Functions definitions 
-
 class Marking():
-    """A class that performs marking and grade upload to Quercus"""
-    def __init__(self, config_file="config.txt"):
-        """Read config and add variables to the Marking class"""
+    '''A class that performs marking and grade upload to Quercus'''
+    def __init__(self, config_file="config.txt", removerows=0):
+        '''Read config and add variables to the Marking class'''
         self.config = PhyConfig(config_file)
         self.individual_grades_datasets = [ "PHY131_Practical_W2025" ]
-
+        self.removerows = removerows
 
     # Reading excel file 
     def define_dataframes(self):
@@ -76,7 +77,7 @@ class Marking():
         df_marks = list(map(list, zip(*df_marks)))
     
         # Remove rows at the start
-        df_students = [row[removerows:] for row in df_students]
+        df_students = [row[self.removerows:] for row in df_students]
     
         # Names for the columns in final excel file
         self.Names = list(dated.columns.values)
@@ -222,9 +223,9 @@ class Marking():
                 writer.writerow(row)
 
     def main(self):
-        """
+        '''
         Main loop of the marking class, that should do all the marking
-        """
+        '''
         # Create dataframe with all the marks 
         
         # Import data from excel file into the dataframes
@@ -244,7 +245,8 @@ class Marking():
             self.write_to_excel_with_alternating_colors(df, self.config.xlsx_colors, self.config.file_out)
         
         # csv output + Quercus marks import
-        elif file_extension == 'csv' and quercus_grading:
+        elif file_extension == 'csv' and self.config.quercus_grading:
+            import_Quercus()
             if self.config.login =='':
                 login = input("Enter your login: ")
             if self.config.password == '':
@@ -265,13 +267,16 @@ class Marking():
         
             self.write_to_csv(df, self.config.file_out) # Create the file with marks to export it later
             import_grades_to_quercus(driver, df, course_info) # Import grades to quercus
-        elif file_extension == 'csv' and not quercus_grading:
+        elif file_extension == 'csv' and not self.config.quercus_grading:
             self.write_to_csv(df, self.config.file_out) # Create the file with marks to export it later
+        else:
+            raise ValueError(f"Unknown output file extension: {file_extension}")
     
 
 #Main function
 
 if __name__ == "__main__":
     config_file = "config.txt"
-    marking = Marking(config_file)
+    removerows=0
+    marking = Marking(config_file, removerows=removerows)
     marking.main()
