@@ -44,6 +44,7 @@ GradingScheme = PHY131_Practical_W2025
 ```
 
 Note that all QUERCUS parts are irrelevant, since automatic upload is broken for now...
+The only exception is `quercus_grading`, which MUST be set to `False`
 
 ## Grading a practical
 
