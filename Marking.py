@@ -15,7 +15,7 @@ def import_Quercus():
     """
     Imports Quercus-specific functions
     """
-    from Quercus import import_grades_to_quercus, login_to_quercus, get_assignment_id, get_driver
+    #from Quercus import import_grades_to_quercus, login_to_quercus, get_assignment_id, get_driver
     try:
         from getpass4 import getpass
     except ImportError:
@@ -112,7 +112,7 @@ class Marking():
             lateness = df_students[gradescolumn]
         else:
             lateness = df_students[latenesscolumn]
-        max_pod = max(students_pod)
+        max_student_pod = max(students_pod) if students_pod else 0
         # print(students_pod)
     
         # Marks
@@ -120,6 +120,10 @@ class Marking():
         Excel_podmarks = df_marks[1]
         Excel_size = len(Excel_podmarks)
         print(Excel_podmarks)
+
+        excel_pods = [int(pod) for pod in Excel_podno]
+        max_excel_pod = max(excel_pods) if excel_pods else 0
+        max_pod = max(max_student_pod, max_excel_pod)
     
         # Get the marks for each pod 
         # Initialize the array with zeros and max_pod+1 elements
@@ -131,7 +135,14 @@ class Marking():
         for i in range(0, Excel_size):
             # print(i)
             PodNo = int(Excel_podno[i])
-            Pod_marks[PodNo] = Excel_podmarks[i]
+            try:
+                Pod_marks[PodNo] = Excel_podmarks[i]
+            except:
+                print(f"PodNo: {PodNo}")
+                print(f"i: {i}")
+                print(f"Pod_marks: {Pod_marks}")
+                print(f"Excel_podmarks: {Excel_podmarks}")
+                exit(1)
             if self.config.GradingScheme in self.individual_grades_datasets:
                 Pod_marks_extra[PodNo] = Excel_podmarks_extra[i]
     
@@ -226,6 +237,7 @@ class Marking():
         '''
         Main loop of the marking class, that should do all the marking
         '''
+        noquercus=True
         # Create dataframe with all the marks 
         
         # Import data from excel file into the dataframes
@@ -253,20 +265,20 @@ class Marking():
                 password = getpass("Enter your password: ")
             auth_info = [self.config.login, self.config.password, self.config.browser, self.config.TFA]
         
-            driver = get_driver(self.config.browser) # Open the browser window
-            login_to_quercus(driver, auth_info) # Log into quercus
-            pra_id = get_assignment_id(driver, self.config.webpg_course, self.config.PRA_name) # Get the assignment ID
+            if not noquercus: driver = get_driver(self.config.browser) # Open the browser window
+            if not noquercus: login_to_quercus(driver, auth_info) # Log into quercus
+            if not noquercus: pra_id = get_assignment_id(driver, self.config.webpg_course, self.config.PRA_name) # Get the assignment ID
             print("Retrieved the assignment ID")
             time.sleep(2)
             
             # Change the name of the assignment to correctly input it later
-            PRA_name = self.config.PRA_name + ' (' + pra_id + ')'
+            if not noquercus: PRA_name = self.config.PRA_name + ' (' + pra_id + ')'
             out_path = os.path.join(os.path.dirname(__file__), self.config.file_out).replace('\\', '/')
         
             course_info = [self.config.webpg_course, self.config.PRA_name, out_path]
         
             self.write_to_csv(df, self.config.file_out) # Create the file with marks to export it later
-            import_grades_to_quercus(driver, df, course_info) # Import grades to quercus
+            if not noquercus: import_grades_to_quercus(driver, df, course_info) # Import grades to quercus
         elif file_extension == 'csv' and not self.config.quercus_grading:
             self.write_to_csv(df, self.config.file_out) # Create the file with marks to export it later
         else:
