@@ -27,6 +27,14 @@ The input to the code the Excel file `Pods.xlsx`. Inside of this spreadsheet, yo
 
 You can choose to export the marks into the xlsx file instead, without uploading them to Quercus.
 
+## Running with nix
+
+After you install nix into your environment, run:
+```
+nix develop --experimental-features 'nix-command flakes
+```
+in the directory of this code. 
+
 ## Libraries Used
 The following libraries are used in the code:
 

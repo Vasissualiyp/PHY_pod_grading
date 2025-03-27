@@ -18,20 +18,13 @@ pip install -r requirements.txt
 PRA_no = 2
 
 [QUERCUS]
-login = user
-password = passwd
-browser = Chrome
-TFA = None
-webpg_course = https://q.utoronto.ca/courses/12345
-student_group = R9-MP124
-
-[QUERCUS]
 quercus_grading = False
 login = usrname
 password = passwd
 browser = Chrome
 TFA = None
 webpg_course = https://q.utoronto.ca/courses/12345
+student_group = R9-MP124
 
 [FILES]
 file_in = Pods.xlsx
