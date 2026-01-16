@@ -94,6 +94,11 @@ class Marking():
             self.Names.append(self.config.PRA_name)
     
         return df_students, df_marks
+
+    def create_pod_dict(self, pods_list):
+        self.poddict = {0 : 0}
+        for i, pod in enumerate(pods_list):
+            self.poddict[pod] = i+1
     
     # Grading routine
     def grading(self, df_students, df_marks): 
@@ -107,6 +112,13 @@ class Marking():
         podnocolumn = self.Names.index('Pod #, 0 if absent')
         students_pod = df_students[podnocolumn]
         latenesscolumn = self.Names.index('Lateness') 
+
+        # Get pods with updated marking
+        Excel_podno = df_marks[0]
+        self.create_pod_dict(Excel_podno)
+        Excel_podno = [self.poddict[a] for a in Excel_podno]
+        students_pod = [self.poddict[a] for a in students_pod]
+
         if self.config.GradingScheme == 'Grades_Column':
             gradescolumn = self.Names.index('Grades') 
             lateness = df_students[gradescolumn]
@@ -116,7 +128,6 @@ class Marking():
         # print(students_pod)
     
         # Marks
-        Excel_podno = df_marks[0]
         Excel_podmarks = df_marks[1]
         Excel_size = len(Excel_podmarks)
         print(Excel_podmarks)

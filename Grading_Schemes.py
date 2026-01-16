@@ -10,6 +10,13 @@ def set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme):
                 marks[i] = marks[i] + 1
             elif PodNo != 0:
                 marks[i] = marks[i] + 2
+        elif GradingScheme == 'PHY131_Practical_W2026':
+            PodMark = Pod_marks[PodNo]
+            marks[i] = PodMark
+            if lateness[i] != 0:
+                marks[i] = marks[i]
+            elif PodNo != 0:
+                marks[i] = marks[i] + 15 # 15% of lateness mark
         elif GradingScheme == 'Grades_Column':
             PodMark = Pod_marks[PodNo] * 0
             marks[i] = PodMark + lateness[i]
@@ -32,7 +39,6 @@ def set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme):
             elif PodNo != 0:
                 marks[i] = marks[i] + 2
         else: 
-            print(f"Grading scheme {GradingScheme} not defined.")
             raise ValueError(f"Grading scheme {GradingScheme} not defined.")
     return marks
 
