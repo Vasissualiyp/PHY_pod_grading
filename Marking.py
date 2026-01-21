@@ -60,7 +60,7 @@ class Marking():
     def __init__(self, config_file="config.txt", removerows=0):
         '''Read config and add variables to the Marking class'''
         self.config = PhyConfig(config_file)
-        self.individual_grades_datasets = [ "PHY131_Practical_W2025" ]
+        self.individual_grades_datasets = [ "PHY131_Practical_W2025", "PHY131_Practical_W2026"]
         self.removerows = removerows
 
     # Reading excel file 
@@ -81,11 +81,14 @@ class Marking():
     
         # Names for the columns in final excel file
         self.Names = list(dated.columns.values)
+        print(self.config.GradingScheme)
         if self.config.GradingScheme in self.individual_grades_datasets:
             name1 = self.config.PRA_name + " - Practical questions"
             name2 = self.config.PRA_name + " - notebook"
             name3 = self.config.PRA_name + " - individual"
             name4 = self.config.PRA_name + " - Lateness"
+            if self.config.GradingScheme == "PHY131_Practical_W2026":
+                name1 = self.config.PRA_name + " - Submission"
             self.Names.append(name1)
             self.Names.append(name2)
             self.Names.append(name3)
@@ -200,6 +203,15 @@ class Marking():
             ],
             axis=1,
         )
+        if self.config.GradingScheme == "PHY131_Practical_W2026":
+            df = df.drop(
+                [
+                    self.Names[-3],
+                    self.Names[-1]
+                ],
+                axis=1,
+            )
+
         #NewNames = ["Last", "First", "Pod#", "Late", "Mark"]
         #df.columns = NewNames
         return df

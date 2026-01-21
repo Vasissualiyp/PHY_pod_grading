@@ -13,10 +13,10 @@ def set_grade(students_pod, Pod_marks, marks, lateness, GradingScheme):
         elif GradingScheme == 'PHY131_Practical_W2026':
             PodMark = Pod_marks[PodNo]
             marks[i] = PodMark
-            if lateness[i] != 0:
-                marks[i] = marks[i]
-            elif PodNo != 0:
-                marks[i] = marks[i] + 15 # 15% of lateness mark
+            #if lateness[i] != 0:
+            #    marks[i] = marks[i]
+            #elif PodNo != 0:
+            #    marks[i] = marks[i]
         elif GradingScheme == 'Grades_Column':
             PodMark = Pod_marks[PodNo] * 0
             marks[i] = PodMark + lateness[i]
@@ -50,6 +50,15 @@ def set_grade_individual_scheme(students_pod, Pod_marks, Pod_marks_extra, marks,
         PodNo = int(students_pod[i])
         print(f"PodNo for student {i}: {PodNo}")
         if GradingScheme == 'PHY131_Practical_W2025':
+            PodMark = Pod_marks[PodNo]
+            PodMark_extra = Pod_marks_extra[PodNo]
+            marks[i] = PodMark
+            marks_extra[i] = PodMark_extra
+            if PodNo != 0:
+                individual[i] = 1
+            print(f"Mark for student {i}: {PodMark}")
+            print(f"Extra Mark for student {i}: {PodMark_extra}")
+        elif GradingScheme == 'PHY131_Practical_W2026':
             PodMark = Pod_marks[PodNo]
             PodMark_extra = Pod_marks_extra[PodNo]
             marks[i] = PodMark
