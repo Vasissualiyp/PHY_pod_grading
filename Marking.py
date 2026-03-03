@@ -99,7 +99,7 @@ class Marking():
         return df_students, df_marks
 
     def create_pod_dict(self, pods_list):
-        self.poddict = {0 : 0}
+        self.poddict = {"0" : 0}
         for i, pod in enumerate(pods_list):
             self.poddict[pod] = i+1
     
@@ -119,8 +119,8 @@ class Marking():
         # Get pods with updated marking
         Excel_podno = df_marks[0]
         self.create_pod_dict(Excel_podno)
-        Excel_podno = [self.poddict[a] for a in Excel_podno]
-        students_pod = [self.poddict[a] for a in students_pod]
+        Excel_podno =  [self.poddict[a] for a in Excel_podno]
+        students_pod = [self.poddict[str(a).replace(" ", "")] for a in students_pod]
 
         if self.config.GradingScheme == 'Grades_Column':
             gradescolumn = self.Names.index('Grades') 

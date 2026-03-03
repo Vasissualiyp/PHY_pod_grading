@@ -63,7 +63,7 @@
           buildInputs = with pkgs; [
             pythonEnv
             firefox
-            google-chrome
+			#google-chrome
           ];
           shellHook = ''
           echo "Welcome to PHY Pod Grader!"
